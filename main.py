@@ -55,7 +55,7 @@ class Snake:
 
     @property
     def score(self):
-        return f' Score: {self.hit_score} / {level_list[level][2]} '
+        return ' Score: {} / {} '.format(self.hit_score, level_list[level][2])
 
     def change_direction(self, direction):
         if Snake.REV_DIR_MAP[self.direction] != direction:
@@ -89,6 +89,8 @@ class Snake:
         
         self.bodylist.append(Body(x, y, '0'))
         self.direction = KEY_RIGHT
+        self.timeout = TIMEOUT
+        self.window.timeout(self.timeout)
 
     def move_right(self):
         self.head.x += 1
@@ -169,7 +171,7 @@ if __name__ == '__main__':
             key = -1
             while key != 32:
                 window.border(0)
-                window.addstr(9, 3, f'Level {level + 1}. Press "Space" to start')
+                window.addstr(9, 3, 'Level {}. Press "Space" to start'.format(level + 1))
                 snake.reset(level_list[level][1], 5)
                 food.loc_coor = level_list[level][0].coordinates
                 food.coor_gen()
@@ -228,6 +230,7 @@ if __name__ == '__main__':
                 window.clear()
                 window.addstr(1,1, game_over)
                 snake.hit_score = 0
+                window.timeout(TIMEOUT)
                 key = window.getch()
 
                 if key == 27:
